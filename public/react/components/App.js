@@ -9,6 +9,7 @@ export const App = () => {
 
 	//const [sauces, setSauces] = useState([]);
 	const [items, setItems] = useState([]);
+	const [item, setItem] = useState([])
 
 	// async function fetchSauces(){
 	// 	try {
@@ -37,9 +38,24 @@ export const App = () => {
 		}
 	}
 
+	async function fetchItem(id){
+		try {
+			const res = await fetch(`${apiURL}/items/${id}`);
+			const itemData = await res.json();
+
+			console.log('oneItem:');
+			console.log(itemData);
+			console.log(`${apiURL}/items/${id}`)
+		}  catch(err){
+			console.log("Error in fetching one item");
+		}
+	};
+
 	function clickHandler(e){
 		e.preventDefault();
 		console.log("You found me");
+		fetchItem(e.target.value);
+		console.log(e.target.value)
 	}
 
 	useEffect(() => {

@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const Item = ({item, click }) => {
+export const Item = ({item, click, value }) => {
 
   return <>
-    <button className = "card" onClick = {click}>
+    <button className = "card" onClick = {click} value={item.id}>
     <h3>{item.name}</h3>
     <img src={item.image} alt={item.name} />
     <h1>Description:</h1>
