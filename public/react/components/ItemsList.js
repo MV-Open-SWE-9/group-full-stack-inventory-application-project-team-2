@@ -1,9 +1,6 @@
 import React , { useState, useEffect } from 'react'; 
 import { Item } from './Item'; 
 
-
-
-
 //Front-end View for all Items , creating react compnonents to display the list of items. 
 
 export const ItemsList = ({items, click}) => {
