@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SaucesList } from './SaucesList';
 import { ItemsList } from './ItemsList';
+import {Item} from './Item';
 
 // import and prepend the api url to any fetch calls
 import apiURL from '../api';
@@ -9,7 +10,8 @@ export const App = () => {
 
 	//const [sauces, setSauces] = useState([]);
 	const [items, setItems] = useState([]);
-	const [item, setItem] = useState([])
+	const [item, setItem] = useState({})
+	const [singleItem, setSingleItem] = useState(false);
 
 	// async function fetchSauces(){
 	// 	try {
@@ -43,9 +45,9 @@ export const App = () => {
 			const res = await fetch(`${apiURL}/items/${id}`);
 			const itemData = await res.json();
 
-			console.log('oneItem:');
-			console.log(itemData);
-			console.log(`${apiURL}/items/${id}`)
+			setItem(itemData);
+			setSingleItem(true);
+
 		}  catch(err){
 			console.log("Error in fetching one item");
 		}
@@ -53,11 +55,15 @@ export const App = () => {
 
 	function clickHandler(e){
 		e.preventDefault();
-		console.log("You found me");
-		fetchItem(e.target.value);
-		console.log(e.target.value)
+		fetchItem(e.currentTarget.value);
 	}
 
+	function handleBackClick(e){
+		e.preventDefault();
+		setSingleItem(false);
+		setItem({});
+	}
+	
 	useEffect(() => {
 		fetchItems();
 	}, []);
@@ -69,7 +75,7 @@ export const App = () => {
 			<SaucesList sauces={sauces} />*/}
 			<h1>Item Shop</h1>
 			<h2>All Items</h2>
-			<ItemsList items = {items} click = {clickHandler}/>
+			{singleItem ? <><Item item = {item} /> <button onClick = {handleBackClick}>Back to Shop</button></> : <ItemsList items = {items} click = {clickHandler}/>}
 		</main>
 	)
 
