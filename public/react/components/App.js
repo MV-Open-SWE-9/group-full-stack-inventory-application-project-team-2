@@ -7,43 +7,39 @@ import apiURL from '../api';
 
 export const App = () => {
 
-	const [sauces, setSauces] = useState([]);
+	//const [sauces, setSauces] = useState([]);
 	const [items, setItems] = useState([]);
 
-	async function fetchSauces(){
-		try {
-			const response = await fetch(`${apiURL}/sauces`);
-			const saucesData = await response.json();
+	// async function fetchSauces(){
+	// 	try {
+	// 		const response = await fetch(`${apiURL}/sauces`);
+	// 		const saucesData = await response.json();
 			
-			setSauces(saucesData);
-		} catch (err) {
-			console.log("Oh no an error! ", err)
+	// 		setSauces(saucesData);
+	// 	} catch (err) {
+	// 		console.log("Oh no an error! ", err)
+	// 	}
+	// }
+
+	async function fetchItems(){
+		try{
+			const res = await fetch(`${apiURL}/items`);
+			const itemData = await res.json();
+			
+			console.log("itemData:");
+			console.log(itemData);
+			
+			setItems(itemData);
+			console.log("items:");
+			console.log(items);
+		}catch(err){
+			console.log("Error in fetchItems");
 		}
 	}
 
-	useEffect(() => {
-		fetchSauces();
-	}, []);
-
-	return (
-		<main>	
-      <h1>Sauce Store</h1>
-			<h2>All things 🔥</h2>
-			<SaucesList sauces={sauces} />
-		</main>
-	)
-
-	// fetching all items 
-	
-	async function fetchItems(){
-		try {
-			const response = await fetch(`${apiURL}/item`);
-			const itemData = await response.json();
-			
-			setItems(itemData);
-		} catch (err) {
-			console.log("Oh no an error! ", err)
-		}
+	function clickHandler(e){
+		e.preventDefault();
+		console.log("You found me");
 	}
 
 	useEffect(() => {
@@ -52,10 +48,38 @@ export const App = () => {
 
 	return (
 		<main>	
-      <h1>Sauce Store</h1>
+      		{/*<h1>Sauce Store</h1>
 			<h2>All things 🔥</h2>
-			<ItemsList items={items} />
+			<SaucesList sauces={sauces} />*/}
+			<h1>Item Shop</h1>
+			<h2>All Items</h2>
+			<ItemsList items = {items} click = {clickHandler}/>
 		</main>
 	)
+
+	// fetching all items 
+	
+	// async function fetchItems(){
+	// 	try {
+	// 		const response = await fetch(`${apiURL}/item`);
+	// 		const itemData = await response.json();
+			
+	// 		setItems(itemData);
+	// 	} catch (err) {
+	// 		console.log("Oh no an error! ", err)
+	// 	}
+	// }
+
+	// useEffect(() => {
+	// 	fetchItems();
+	// }, []);
+
+	// return (
+	// 	<main>	
+    //   <h1>Sauce Store</h1>
+	// 		<h2>All things 🔥</h2>
+	// 		<ItemsList items={items} />
+	// 	</main>
+	// )
 
 }
