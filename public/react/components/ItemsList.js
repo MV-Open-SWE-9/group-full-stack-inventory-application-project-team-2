@@ -1,16 +1,16 @@
 import React , { useState, useEffect } from 'react'; 
-import { Sauce } from './Sauce'; 
+import { Item } from './Item'; 
 
 
 
 
 //Front-end View for all Items , creating react compnonents to display the list of items. 
 
-export const itemsList = ({Item}) => {
+export const ItemsList = ({items, click}) => {
 	return <>
 		{
-			Item.map((item, idx) => {
-				return <Item item={item} key={idx} />
+			items.map((item, idx) => {
+				return <Item item={item} key={idx} click = {click} />
 			})
 		}
 	</>
