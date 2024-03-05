@@ -2,6 +2,8 @@ const { sequelize, Model, DataTypes } = require('../db.js');
 
 class Item extends Model{};
 
+/*--------------------Item Model------------------------------------*/
+
 Item.init({
    name: DataTypes.STRING,
    description: DataTypes.STRING,
