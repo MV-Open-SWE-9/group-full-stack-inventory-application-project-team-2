@@ -62,6 +62,25 @@ export const App = () => {
 		}
 	};
 
+	// async function handleDelete(id) {
+	// 	try {
+	// 		const res = await fetch(`${apiURL}/items/${id}`, {
+	// 			method: "DELETE"
+	// 		})
+	// 	} catch(err){
+	// 		console.log("Error in deleting item")
+	// 	}
+	// }
+
+	async function handleDelete(id){
+		const response = await fetch(`${apiURL}/items/${id}`, {
+		method: "DELETE"
+	  });
+
+	  items.filter(a => a.id !== id);
+	  setSingleItem(false);
+	  };
+
 	function clickHandler(e){
 		e.preventDefault();
 		fetchItem(e.currentTarget.value);
@@ -83,6 +102,11 @@ export const App = () => {
 		console.log(newItem);
 		setCreateItem(false);
 		handleFormSubmit();
+	}
+
+	function deleteItem(e){
+		e.preventDefault();
+		handleDelete(e.currentTarget.value);
 	}
 
 	async function handleFormSubmit() {
@@ -115,7 +139,7 @@ export const App = () => {
 			<SaucesList sauces={sauces} />*/}
 			<h1>Item Shop</h1>
 			<h2>All Items</h2>
-			{createItem ? <ItemForm newItem = {newItem} setNew = {setNewItem} submit = {handleItemSubmit}/> : singleItem ? <><Item item = {item} /> <button onClick = {handleBackClick}>Back to Shop</button></> : <><button onClick = {formClick}>Make new Item</button><ItemsList items = {items} click = {clickHandler}/></>}
+			{createItem ? <ItemForm newItem = {newItem} setNew = {setNewItem} submit = {handleItemSubmit}/> : singleItem ? <><Item item = {item} /> <button onClick = {handleBackClick}>Back to Shop</button> <button onClick = {deleteItem} value={item.id}> Delete Item </button></> : <><button onClick = {formClick}>Make new Item</button><ItemsList items = {items} click = {clickHandler}/></>}
 		</main>
 	)
 
