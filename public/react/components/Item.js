@@ -1,5 +1,7 @@
 import React from 'react';
 
+/*--------------------Single Item, returns button with details of item prop passed------------------------------------*/
+
 export const Item = ({item, click}) => {
 
   return <>

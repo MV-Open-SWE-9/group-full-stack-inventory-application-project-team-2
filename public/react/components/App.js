@@ -1,3 +1,4 @@
+/*--------------------Required Imports------------------------------------*/
 import React, { useState, useEffect } from 'react';
 import { SaucesList } from './SaucesList';
 import { ItemsList } from './ItemsList';
@@ -9,11 +10,11 @@ import apiURL from '../api';
 
 export const App = () => {
 
-	//const [sauces, setSauces] = useState([]);
-	const [items, setItems] = useState([]);
-	const [item, setItem] = useState({})
-	const [singleItem, setSingleItem] = useState(false);
-	const [createItem, setCreateItem] = useState(false);
+	/*--------------------React State variables------------------------------------*/
+	const [allItems, setAllItems] = useState([]);
+	const [singleItem, setSingleItem] = useState({});
+	const [viewSingleItem, setViewSingleItem] = useState(false);
+	const [viewCreateItemForm, setViewCreateItemForm] = useState(false);
 	const [newItem, setNewItem] = useState({
 		name: "",
 		description: "",
@@ -22,153 +23,138 @@ export const App = () => {
 		image: ""
 	});
 
-	// async function fetchSauces(){
-	// 	try {
-	// 		const response = await fetch(`${apiURL}/sauces`);
-	// 		const saucesData = await response.json();
-			
-	// 		setSauces(saucesData);
-	// 	} catch (err) {
-	// 		console.log("Oh no an error! ", err)
-	// 	}
-	// }
+/*----------------------CRUD function handlers----------------------------------*/
 
-	async function fetchItems(){
+	/*----------------------Get All Items in DB----------------------------------*/
+	async function fetchAllItems(){
+		
 		try{
+
 			const res = await fetch(`${apiURL}/items`);
 			const itemData = await res.json();
 			
-			console.log("itemData:");
-			console.log(itemData);
-			
-			setItems(itemData);
-			console.log("items:");
-			console.log(items);
-		}catch(err){
-			console.log("Error in fetchItems");
-		}
-	}
+			setAllItems(itemData);
 
-	async function fetchItem(id){
+		}catch(error){
+			console.log("Error in fetchAllItems");
+		}
+	};
+
+	/*----------------------Get Single Item----------------------------------*/
+	async function fetchSingleItem(id){
+
 		try {
+
 			const res = await fetch(`${apiURL}/items/${id}`);
 			const itemData = await res.json();
 
-			setItem(itemData);
-			setSingleItem(true);
+			setSingleItem(itemData);
+			setViewSingleItem(true);
 
-		}  catch(err){
+		}catch(error){
 			console.log("Error in fetching one item");
 		}
 	};
 
-	// async function handleDelete(id) {
-	// 	try {
-	// 		const res = await fetch(`${apiURL}/items/${id}`, {
-	// 			method: "DELETE"
-	// 		})
-	// 	} catch(err){
-	// 		console.log("Error in deleting item")
-	// 	}
-	// }
+	/*----------------------Delete Single Item----------------------------------*/
+	async function deleteSingleitem(id){
+		try{
 
-	async function handleDelete(id){
-		const response = await fetch(`${apiURL}/items/${id}`, {
-		method: "DELETE"
-	  });
+			const response = await fetch(`${apiURL}/items/${id}`, {
+			method: "DELETE"
+			});
 
-	  fetchItems();
+			fetchAllItems();
+			setViewSingleItem(false);
 
-	  setSingleItem(false);
+		}catch(error){
+			console.log("Error in React App deleteSingleitem");
+		}
 	  };
 
-	  async function handleFormSubmit() {
-		const res = await fetch(`${apiURL}/items`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(newItem)
-		})
-	
-		const data = res.json();
-		setItems([...items, newItem]);
-		setNewItem({
-			name: "",
-			description: "",
-			price: 0,
-			category: "",
-			image: ""
-		})
-	}
+	/*----------------------Create New Item----------------------------------*/
+	async function createNewItem() {
+		try{
+
+			const res = await fetch(`${apiURL}/items`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(newItem)
+			});
 		
-	function clickHandler(e){
-		e.preventDefault();
-		fetchItem(e.currentTarget.value);
+			const data = res.json();
+			setAllItems([
+				...allItems, newItem
+			]);
+			setNewItem({
+				name: "",
+				description: "",
+				price: 0,
+				category: "",
+				image: ""
+			});
+
+		}catch(error){
+			console.log("Error in createNewItem");
+		}
 	}
 
-	function handleBackClick(e){
+	/*----------------------CRUD Button Handlers----------------------------------*/
+
+	function itemClickHandler(e){
 		e.preventDefault();
-		setSingleItem(false);
-		setItem({});
+		fetchSingleItem(e.currentTarget.value);
+	}
+
+	function backClickHandler(e){
+		e.preventDefault();
+		setViewSingleItem(false);
+		setSingleItem({});
 	}
 	
-	function formClick(e){
+	function newItemFormClickHandler(e){
 		e.preventDefault();
-		setCreateItem(true);
+		setViewCreateItemForm(true);
 	}
 
-	function handleItemSubmit(e){
+	function submitNewItemClickHandler(e){
 		e.preventDefault();
-		console.log(newItem);
-		setCreateItem(false);
-		handleFormSubmit();
+		setViewCreateItemForm(false);
+		createNewItem();
 	}
 
-	function deleteItem(e){
+	function deleteItemClickHandler(e){
 		e.preventDefault();
-		handleDelete(e.currentTarget.value);
+		deleteSingleitem(e.currentTarget.value);
 	}
 
+
+	/*----------------------React Renderer----------------------------------*/
 
 	useEffect(() => {
-		fetchItems();
+		fetchAllItems();
 	}, []);
+
 
 	return (
 		<main>	
-      		{/*<h1>Sauce Store</h1>
-			<h2>All things 🔥</h2>
-			<SaucesList sauces={sauces} />*/}
 			<h1>Item Shop</h1>
 			<h2>All Items</h2>
-			{createItem ? <ItemForm newItem = {newItem} setNew = {setNewItem} submit = {handleItemSubmit}/> : singleItem ? <><Item item = {item} /> <button onClick = {handleBackClick}>Back to Shop</button> <button onClick = {deleteItem} value={item.id}> Delete Item </button></> : <><button onClick = {formClick}>Make new Item</button><ItemsList items = {items} click = {clickHandler}/></>}
+			{
+			viewCreateItemForm ? <ItemForm newItem = {newItem} setNew = {setNewItem} submit = {submitNewItemClickHandler}/> 
+			: viewSingleItem ? <>
+				<Item item = {singleItem} />
+				<button onClick = {backClickHandler}>Back to Shop</button
+				><button onClick = {deleteItemClickHandler} value={singleItem.id}>Delete Item</button>
+			</> 
+			: <>
+				<button onClick = {newItemFormClickHandler}>Make new Item</button>
+				<ItemsList items = {allItems} click = {itemClickHandler}/>
+			</>
+			}
 		</main>
 	)
-
-	// fetching all items 
-	
-	// async function fetchItems(){
-	// 	try {
-	// 		const response = await fetch(`${apiURL}/item`);
-	// 		const itemData = await response.json();
-			
-	// 		setItems(itemData);
-	// 	} catch (err) {
-	// 		console.log("Oh no an error! ", err)
-	// 	}
-	// }
-
-	// useEffect(() => {
-	// 	fetchItems();
-	// }, []);
-
-	// return (
-	// 	<main>	
-    //   <h1>Sauce Store</h1>
-	// 		<h2>All things 🔥</h2>
-	// 		<ItemsList items={items} />
-	// 	</main>
-	// )
 
 }
