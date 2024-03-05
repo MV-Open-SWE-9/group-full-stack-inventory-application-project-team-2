@@ -90,6 +90,17 @@ export const App = () => {
 			},
 			body: JSON.stringify(newItem)
 		})
+	
+		const data = res.json();
+		setItems([...items, newItem]);
+		setNewItem({
+			name: "",
+			description: "",
+			price: 0,
+			category: "",
+			image: ""
+		})
+	}
 		
 	function clickHandler(e){
 		e.preventDefault();
@@ -119,17 +130,6 @@ export const App = () => {
 		handleDelete(e.currentTarget.value);
 	}
 
-
-		const data = res.json();
-		setItems([...items, newItem]);
-		setNewItem({
-			name: "",
-			description: "",
-			price: 0,
-			category: "",
-			image: ""
-		})
-	}
 
 	useEffect(() => {
 		fetchItems();
