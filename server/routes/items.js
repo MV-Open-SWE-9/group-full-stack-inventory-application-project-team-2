@@ -22,4 +22,16 @@ router.get("/:id", async (req, res, next) => {
     }
 });
 
+router.post("/", async (req, res, next) => {
+  try{
+    const item = await Item.create(req.body);
+    if(!item){
+      throw new Error("Problem in item router POST");
+    }
+    res.send(item);
+  }catch(error){
+    next(error);
+  }
+});
+
 module.exports = router;
