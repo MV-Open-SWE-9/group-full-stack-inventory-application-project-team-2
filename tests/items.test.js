@@ -1,6 +1,7 @@
 const { describe, it, test, expect } = require("@jest/globals");
-const Item = require("../server/models/item");
-const 
+const { items } = require("../server/seedData.js"); 
+const Item = require("../server/models/item.js");
+const {sequelize} = require('../server/db.js');
 
 /*
 "name":"Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
@@ -12,9 +13,11 @@ const
 
 describe("Unit tests for item routes", () => {
 
-   /* beforeEach(() => {
-        db.sync();
-    }); */
+    beforeEach(async () => {
+        await sequelize.sync({force:true});
+        await Promise.all(items.map(item => Item.create(item)));
+
+    });
 
     test("get all 20 seed items", async () => {
         const item = await Item.findAll();
