@@ -82,6 +82,26 @@ export const App = () => {
 		e.preventDefault();
 		console.log(newItem);
 		setCreateItem(false);
+		handleFormSubmit();
+	}
+
+	async function handleFormSubmit() {
+		const res = await fetch(`${apiURL}/items`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newItem)
+		})
+		const data = res.json();
+		setItems([...items, newItem]);
+		setNewItem({
+			name: "",
+			description: "",
+			price: 0,
+			category: "",
+			image: ""
+		})
 	}
 
 	useEffect(() => {
