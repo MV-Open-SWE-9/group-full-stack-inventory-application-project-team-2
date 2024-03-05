@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SaucesList } from './SaucesList';
 import { ItemsList } from './ItemsList';
 import {Item} from './Item';
+import { ItemForm } from './ItemForm';
 
 // import and prepend the api url to any fetch calls
 import apiURL from '../api';
@@ -12,6 +13,14 @@ export const App = () => {
 	const [items, setItems] = useState([]);
 	const [item, setItem] = useState({})
 	const [singleItem, setSingleItem] = useState(false);
+	const [createItem, setCreateItem] = useState(false);
+	const [newItem, setNewItem] = useState({
+		name: "",
+		description: "",
+		price: 0,
+		category: "",
+		image: ""
+	});
 
 	// async function fetchSauces(){
 	// 	try {
@@ -64,6 +73,17 @@ export const App = () => {
 		setItem({});
 	}
 	
+	function formClick(e){
+		e.preventDefault();
+		setCreateItem(true);
+	}
+
+	function handleItemSubmit(e){
+		e.preventDefault();
+		console.log(newItem);
+		setCreateItem(false);
+	}
+
 	useEffect(() => {
 		fetchItems();
 	}, []);
@@ -75,7 +95,7 @@ export const App = () => {
 			<SaucesList sauces={sauces} />*/}
 			<h1>Item Shop</h1>
 			<h2>All Items</h2>
-			{singleItem ? <><Item item = {item} /> <button onClick = {handleBackClick}>Back to Shop</button></> : <ItemsList items = {items} click = {clickHandler}/>}
+			{createItem ? <ItemForm newItem = {newItem} setNew = {setNewItem} submit = {handleItemSubmit}/> : singleItem ? <><Item item = {item} /> <button onClick = {handleBackClick}>Back to Shop</button></> : <><button onClick = {formClick}>Make new Item</button><ItemsList items = {items} click = {clickHandler}/></>}
 		</main>
 	)
 
