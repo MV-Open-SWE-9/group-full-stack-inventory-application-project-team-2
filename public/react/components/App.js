@@ -77,10 +77,20 @@ export const App = () => {
 		method: "DELETE"
 	  });
 
-	  items.filter(a => a.id !== id);
+	  fetchItems();
+
 	  setSingleItem(false);
 	  };
 
+	  async function handleFormSubmit() {
+		const res = await fetch(`${apiURL}/items`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newItem)
+		})
+		
 	function clickHandler(e){
 		e.preventDefault();
 		fetchItem(e.currentTarget.value);
@@ -109,14 +119,7 @@ export const App = () => {
 		handleDelete(e.currentTarget.value);
 	}
 
-	async function handleFormSubmit() {
-		const res = await fetch(`${apiURL}/items`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(newItem)
-		})
+
 		const data = res.json();
 		setItems([...items, newItem]);
 		setNewItem({
