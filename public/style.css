@@ -1,5 +1,55 @@
 * {
   margin: 0;
   box-sizing: border-box;
-  background-color: rgb(223, 223, 223);
+  background-color: white;
+  /* border: red dotted 1pt; */
+}
+
+/* Main */
+main {
+  margin: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#title-button-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* List View Styles */
+
+/* Individual View Styles */
+#category {
+  text-transform: capitalize;
+}
+
+#flex-container {
+  display: flex;
+}
+
+#img-container {
+  margin-right: 5em;
+}
+#img-container img {
+  max-height: 35em;
+}
+
+#item-details {
+  text-align: left;
+  padding: 15px;
+}
+
+.card {
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 15px;
+}
+
+#button-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+#updateBtn {
+  margin-right: 1.5em;
 }
