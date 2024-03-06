@@ -1,10 +1,11 @@
+import "regenerator-runtime/runtime"
 const { describe, it, test, expect } = require("@jest/globals");
 const { items } = require("../server/seedData.js"); 
 const Item = require("../server/models/item.js");
 const {sequelize} = require('../server/db.js');
 // ================ Paul M additions (delete after review) ================ 
 const request = require('supertest');
-const { app } = require("../public/react/components/App.jsxup")
+const { app } = require("../public/react/components/App.jsx")
 
 
 /*
@@ -60,11 +61,11 @@ describe("Unit tests for item routes", () => {
         expect(updatedItem.image).toEqual(updatedItemData.image);
     });
 
-    // test("get single item", async () => {
-    //     const expectedItemId = 1;
-    //     const expectedItem = await Item.findByPk(expectedItemId);
-    //     const res = await request(app).get(`${apiURL}/items/${expectedItemId}`); // == not to sure on filepath 
-    //     expect(res.status).toEqual(200);
-    //     expect(res.body).toMatchObject(expectedItem.toJSON()); 
-    // });
+    test("get single item", async () => {
+        const expectedItemId = 1;
+        const expectedItem = await Item.findByPk(expectedItemId);
+        const res = await request(app).get(`${apiURL}/items/${expectedItemId}`); // == not to sure on filepath 
+        expect(res.status).toEqual(200);
+        expect(res.body).toMatchObject(expectedItem.toJSON()); 
+    });
 });

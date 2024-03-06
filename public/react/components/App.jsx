@@ -191,7 +191,7 @@ export const App = () => {
 	
 	function newItemFormClickHandler(e){
 		e.preventDefault();
-		setViewCreateItemForm(true);
+		setViewCreateItemForm(!viewCreateItemForm);
 	}
 
 	function submitNewItemClickHandler(e){
@@ -224,7 +224,17 @@ export const App = () => {
 
 	return (
 		<main>	
-			<h1>Item Shop</h1>
+			<div id='title-button-flex'>
+				<h1>Item Shop</h1>
+				{viewSingleItem ? 				
+					<button className='btn btn-dark' onClick = {backClickHandler}>Back to Shop</button>
+				: viewCreateItemForm ?
+					<button className='btn btn-outline-danger' onClick={newItemFormClickHandler}>Cancel</button>
+				:
+					<button className='btn btn-outline-dark' onClick = {newItemFormClickHandler}>Make new Item</button>
+				}
+			</div>
+			
 			<h2>All Items</h2>
 			{
 			viewCreateItemForm ? <ItemForm newItem = {newItem} setNew = {setNewItem} submit = {submitNewItemClickHandler}/> 
@@ -232,13 +242,16 @@ export const App = () => {
 										setNewItemCategory = {setNewItemCategory} setNewItemPrice = {setNewItemPrice} 
 										setNewItemImage = {setNewItemImage} submit = {submitSingleItemUpdateHandler}/> 
 			: viewSingleItem ? <>
-				<button onClick = {updateItemClickHandler} value = {singleItem.id}>Update Item</button>
 				<Item item = {singleItem} />
-				<button onClick = {backClickHandler}>Back to Shop</button>
-				<button onClick = {deleteItemClickHandler} value={singleItem.id}>Delete Item</button>
+					<div id='button-div'>
+						<div id='left'>
+							<button id='updateBtn' className='btn btn-outline-dark' onClick = {updateItemClickHandler} value = {singleItem.id}>Update Item</button>
+							<button className='btn btn-outline-danger' onClick = {deleteItemClickHandler} value={singleItem.id}>Delete Item</button>
+						</div>
+					</div>
+
 			</> 
 			: <>
-				<button onClick = {newItemFormClickHandler}>Make new Item</button>
 				<ItemsList items = {allItems} click = {itemClickHandler}/>
 			</>
 			}
