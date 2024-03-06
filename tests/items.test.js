@@ -4,7 +4,7 @@ const Item = require("../server/models/item.js");
 const {sequelize} = require('../server/db.js');
 // ================ Paul M additions (delete after review) ================ 
 const request = require('supertest');
-const { app } = require("../public/react/components/App.jsx")
+const { app } = require("../public/react/components/App.jsxup")
 
 
 /*
