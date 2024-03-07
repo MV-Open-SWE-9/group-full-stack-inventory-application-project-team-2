@@ -33,6 +33,11 @@ h1 {
 
 
 /* Item Styles */
+#list-container {
+  max-height: 65vh;
+  overflow-y: scroll;
+}
+
 #list-container, #item-container {
   margin: 0 3em;
 }
