@@ -11,11 +11,17 @@ import apiURL from '../api';
 
 export const App = () => {
 
-	/*--------------------React State variables------------------------------------*/
+/*--------------------React State variables------------------------------------*/
+
 	const [allItems, setAllItems] = useState([]);
 	const [singleItem, setSingleItem] = useState({});
+
+	/*--------------------View Check variables------------------------------------*/
 	const [viewSingleItem, setViewSingleItem] = useState(false);
 	const [viewCreateItemForm, setViewCreateItemForm] = useState(false);
+	const [viewUpdateSingleItem, setViewUpdateSingleItem] = useState(false);
+
+	/*--------------------New Item variable------------------------------------*/
 	const [newItem, setNewItem] = useState({
 		name: "",
 		description: "",
@@ -23,7 +29,8 @@ export const App = () => {
 		category: "",
 		image: ""
 	});
-	const [viewUpdateSingleItem, setViewUpdateSingleItem] = useState(false);
+
+	/*--------------------Item update variables------------------------------------*/
 	const [newItemName, setNewItemName] = useState("");
 	const [newItemDescription, setNewItemDescription] = useState("");
 	const [newItemPrice, setNewItemPrice] = useState(-1);
@@ -41,6 +48,10 @@ export const App = () => {
 			const res = await fetch(`${apiURL}/items`);
 			const itemData = await res.json();
 			
+			if(!itemData){
+				throw new Error("Error fetching all items in App.jsx");
+			}
+
 			setAllItems(itemData);
 
 		}catch(error){
@@ -55,6 +66,10 @@ export const App = () => {
 
 			const res = await fetch(`${apiURL}/items/${id}`);
 			const itemData = await res.json();
+
+			if(!itemData){
+				throw new Error("Error fetching a single Item in App.jsx");
+			}
 
 			setSingleItem(itemData);
 			setViewSingleItem(true);
@@ -72,6 +87,12 @@ export const App = () => {
 			method: "DELETE"
 			});
 
+			const itemData = await response.json();
+
+			if(!itemData){
+				throw new Error("Error deleting Item in App.jsx");
+			}
+
 			fetchAllItems();
 			setViewSingleItem(false);
 
@@ -84,6 +105,10 @@ export const App = () => {
 	async function createNewItem() {
 		try{
 
+			if(!newItem){
+				throw new Error("Item to add not found in App.jsx");
+			}
+
 			const res = await fetch(`${apiURL}/items`, {
 				method: 'POST',
 				headers: {
@@ -92,10 +117,15 @@ export const App = () => {
 				body: JSON.stringify(newItem)
 			});
 		
-			const data = await res.json();
+			const itemData = await res.json();
 			setAllItems([
 				...allItems, newItem
 			]);
+
+			if(!itemData){
+				throw new Error("Error creating new Item in App.jsx")
+			}
+
 			setNewItem({
 				name: "",
 				description: "",
@@ -127,7 +157,7 @@ export const App = () => {
 					description: newItemDescription
 				};
 			}
-			if(newItemPrice.length > -1){
+			if(newItemPrice > -1){
 				itemUpdater = {
 					...itemUpdater,
 					price: newItemPrice
@@ -146,8 +176,6 @@ export const App = () => {
 				};
 			}
 
-			// console.log(itemUpdater);
-			// console.log(id);
 			const res = await fetch(`${apiURL}/items/${id}`, {
 				method: 'PUT',
 				headers: {
@@ -156,8 +184,11 @@ export const App = () => {
 				body: JSON.stringify(itemUpdater)
 			});
 			
-			const data = await res.json();
-			// console.log(data);
+			const itemData = await res.json();
+
+			if(!itemData){
+				throw new Error("Error Updating single Item in App.jsx")
+			}
 
 			setNewItemName("");
 			setNewItemDescription("");

@@ -7,6 +7,11 @@ router.get("/", async (req, res, next) => {
   try {
 
     const item = await Item.findAll();
+
+    if(!item){
+      throw new Error("Error in items routes (GET) for findAll");
+    }
+
     res.send(item);
 
   } catch (error) {
@@ -19,6 +24,11 @@ router.get("/:id", async (req, res, next) => {
   try{
 
     const item = await Item.findByPk(req.params.id);
+    
+    if(!item){
+      throw new Error("Error in items routes (GET) for findByPk");
+    }
+
     res.json(item);
 
    }catch (error){
@@ -48,11 +58,20 @@ router.delete('/:id', async (req, res, next) => {
 
   try{
 
-    await Item.destroy({
+    const deletedItem = await Item.destroy({
       where : {id: req.params.id}
     });
 
+    if(!deletedItem){
+      throw new Error("Error in items routes (DELETE) for destroy");
+    }
+
     const item = await Item.findAll();
+
+    if(!item){
+      throw new Error("Error in items routes (DELETE) for findAll");
+    }
+
     res.send(item);
 
   } catch (error) {
