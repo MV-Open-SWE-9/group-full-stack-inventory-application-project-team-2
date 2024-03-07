@@ -33,9 +33,14 @@ h1 {
 
 
 /* Item Styles */
-#list-container {
+#list-container, #item-container {
   margin: 0 3em;
 }
+
+#item-container {
+  margin-top: 2em;
+}
+
 h3 {
   font-weight: 700;
   font-size: 24pt;
@@ -89,6 +94,7 @@ h5 {
 
 #updateBtn {
   margin-right: 1.5em;
+  margin-left: 3em;
 }
 
 p {

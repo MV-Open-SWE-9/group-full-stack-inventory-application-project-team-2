@@ -283,14 +283,17 @@ export const App = () => {
 					setNewItemImage = {setNewItemImage} submit = {submitSingleItemUpdateHandler}
 				/> 
 			</>
-			: viewSingleItem ? <>
-				<Item item = {singleItem} />
-					<div id='button-div'>
-						<div id='left'>
-							<button id='updateBtn' className='btn btn-outline-dark' onClick = {updateItemClickHandler} value = {singleItem.id}>Update Item</button>
-							<button className='btn btn-outline-danger' onClick = {deleteItemClickHandler} value={singleItem.id}>Delete Item</button>
-						</div>
+			: viewSingleItem ? 
+			<>
+				<div id='item-container'>
+					<Item item = {singleItem} />
+				</div>
+				<div id='button-div'>
+					<div id='left'>
+						<button id='updateBtn' className='btn btn-outline-dark' onClick = {updateItemClickHandler} value = {singleItem.id}>Update Item</button>
+						<button className='btn btn-outline-danger' onClick = {deleteItemClickHandler} value={singleItem.id}>Delete Item</button>
 					</div>
+				</div>
 
 			</> 
 			: <>
