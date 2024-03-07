@@ -14,7 +14,7 @@ export const Item = ({item, click}) => {
 
           <div id="item-details">
             <h3>{item.name}</h3><br />
-            <p id='price'>${item.price.toFixed(2)}</p><br/>
+            <p id='price'>${item.price}</p><br/>
             <h5>Description:</h5>
             <p>{item.description}</p><br/><br/>
             <h5>Category:</h5>
