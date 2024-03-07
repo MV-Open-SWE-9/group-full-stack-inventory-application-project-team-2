@@ -134,6 +134,8 @@ export const App = () => {
 				image: ""
 			});
 
+			fetchAllItems();
+
 		}catch(error){
 			console.log("Error in createNewItem");
 		}
