@@ -5,10 +5,12 @@ import { Item } from './Item';
 
 export const ItemsList = ({items, click}) => {
 	return <>
-		{
-			items.map((item, idx) => {
-				return <Item item={item} key={idx} click = {click} />
-			})
-		}
+		<div id='list-container'>
+			{
+				items.map((item, idx) => {
+					return <Item item={item} key={idx} click = {click} />
+				})
+			}
+		</div>
 	</>
 } 

@@ -5,38 +5,75 @@
   /* border: red dotted 1pt; */
 }
 
-/* Main */
+/* All */
 main {
-  margin: 20px;
+  margin: 25px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #title-button-flex {
   display: flex;
   justify-content: space-between;
+  /* position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 15px 0; */
 }
 
-/* List View Styles */
+h2 {
+  text-align: center;
+  margin-bottom: 1.5em;
+  font-weight: 400;
+}
 
-/* Individual View Styles */
+h1 {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+
+/* Item Styles */
+#list-container {
+  margin: 0 3em;
+}
+h3 {
+  font-weight: 700;
+  font-size: 24pt;
+}
+
 #category {
   text-transform: capitalize;
 }
 
+h5 {
+  font-weight: bolder;
+}
+
+#price {
+  font-size: 28pt;
+}
+
 #flex-container {
   display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 #img-container {
-  margin-right: 5em;
+  margin: 0 5em 0 2em;
+  padding: 2em;
+  align-self: center;
+
 }
 #img-container img {
-  max-height: 35em;
+  max-height: 30em;
+  max-width: 20em;
 }
 
 #item-details {
   text-align: left;
-  padding: 15px;
+  padding: 15px 20px ;
+  width: 70em;
 }
 
 .card {
@@ -53,3 +90,27 @@ main {
 #updateBtn {
   margin-right: 1.5em;
 }
+
+p {
+  font-size: 16pt;
+}
+
+
+/* Form Styles */
+#new-item-form, #update-item-form {
+  text-align: center;
+}
+
+#new-item-form input, #update-item-form input {
+  border-radius: 7px;
+  padding: 15px;
+  width: 40em;
+  margin-bottom: 2em;
+}
+
+#submit-button {
+  padding: 10px;
+  width: 10em;
+  font-size: 15pt;
+}
+
